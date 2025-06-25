@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Detalle del Instrumento{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Detalle del Instrumento</h2>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">{{ instrumento.nombre }}</h5>
+            <p class="card-text"><strong>Número Interno:</strong> {{ instrumento.codigo_unico }}</p>
+            <p class="card-text"><strong>Número de Serie:</strong> {{ instrumento.numero_serie }}</p>
+            <p class="card-text"><strong>Marca/Modelo:</strong> {{ instrumento.marca_modelo }}</p>
+            <p class="card-text"><strong>Fecha de Adquisición:</strong> {{ instrumento.fecha_adquisicion }}</p>
+            <p class="card-text"><strong>Ubicación:</strong> {{ instrumento.laboratorio_responsable }}</p>
+        </div>
+    </div>
+
+    <h4 class="mt-5">Certificados de Calibración</h4>
+    {% if instrumento.certificados.all %}
+        <table class="table table-striped mt-3">
+            <thead class="table-dark">
+                <tr>
+                    <th>Fecha de Calibración</th>
+                    <th>Próxima Calibración</th>
+                    <th>Técnico</th>
+                    <th>Incertidumbre</th>
+                    <th>Archivo</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cert in instrumento.certificados.all %}
+                <tr>
+                    <td>{{ cert.fecha_calibracion }}</td>
+                    <td>{{ cert.fecha_proxima_calibracion }}</td>
+                    <td>{{ cert.tecnico }}</td>
+                    <td>{{ cert.incertidumbre }}</td>
+                    <td>
+                        {% if cert.archivo_pdf %}
+                            <a href="{{ cert.archivo_pdf.url }}" target="_blank">Ver PDF</a>
+                        {% else %}
+                            No disponible
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No hay certificados cargados.</p>
+    {% endif %}
+
+    <a href="{% url 'listar_instrumentos' %}" class="btn btn-secondary mt-3">Volver al listado</a>
+</div>
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}Registrar Instrumento{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Registrar Nuevo Instrumento</h2>
+
+    <form method="post" class="needs-validation" novalidate>
+        {% csrf_token %}
+
+        {% for field in form %}
+            {% if field.name != 'garantia_vigente' and field.name != 'fecha_vencimiento_garantia' %}
+                <div class="mb-3">
+                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                    {{ field }}
+
+                    {% if field.help_text %}
+                        <div class="form-text">{{ field.help_text }}</div>
+                    {% endif %}
+
+                    {% for error in field.errors %}
+                        <div class="text-danger">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endfor %}
+
+        <!-- Garantía vigente como radio buttons -->
+        <div class="mb-3">
+            <label class="form-label">Garantía vigente</label>
+            {% for radio in form.garantia_vigente %}
+                <div class="form-check">
+                    {{ radio.tag }}
+                    <label class="form-check-label" for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Campo Fecha vencimiento garantía -->
+        <div class="mb-3 d-none" id="grupo_fecha_vencimiento">
+            <label for="id_fecha_vencimiento_garantia" class="form-label">Fecha vencimiento garantía</label>
+            {{ form.fecha_vencimiento_garantia }}
+        </div>
+
+        <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const fuenteFinanciacion = document.getElementById("id_fuente_financiacion");
+            const fuenteOtro = document.getElementById("id_fuente_otro");
+            const fechaVencimiento = document.getElementById("id_fecha_vencimiento_garantia");
+            const grupoFecha = document.getElementById("grupo_fecha_vencimiento");
+
+            function toggleFuenteOtro() {
+                if (fuenteFinanciacion && fuenteFinanciacion.value === "OTRO") {
+                    fuenteOtro?.classList.remove("d-none");
+                } else {
+                    fuenteOtro?.classList.add("d-none");
+                    if (fuenteOtro) fuenteOtro.value = "";
+                }
+            }
+
+            function toggleFechaVencimiento() {
+                const seleccion = document.querySelector('input[name="garantia_vigente"]:checked');
+                if (seleccion && seleccion.value === "SI") {
+                    grupoFecha.classList.remove("d-none");
+                } else {
+                    grupoFecha.classList.add("d-none");
+                    if (fechaVencimiento) fechaVencimiento.value = "";
+                }
+            }
+
+            fuenteFinanciacion?.addEventListener("change", toggleFuenteOtro);
+
+            const garantiaRadios = document.querySelectorAll('input[name="garantia_vigente"]');
+            garantiaRadios.forEach(radio => {
+                radio.addEventListener("change", toggleFechaVencimiento);
+            });
+
+            toggleFuenteOtro();
+            toggleFechaVencimiento();
+        });
+        </script>
+
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="{% url 'dashboard' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

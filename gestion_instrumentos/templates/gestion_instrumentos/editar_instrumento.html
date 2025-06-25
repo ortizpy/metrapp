@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Instrumento{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Editar Instrumento</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        <a href="{% url 'listar_instrumentos' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}
