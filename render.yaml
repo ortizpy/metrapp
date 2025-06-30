@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: metrapp-backend
+    env: python
+    plan: free
+    buildCommand: ""
+    startCommand: gunicorn metrapp_backend.wsgi
+    autoDeploy: true
+    envVars:
+      - key: SECRET_KEY
+        value: clave-super-secreta
+      - key: DEBUG
+        value: "False"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: metrapp-db
+          property: connectionString
+databases:
+  - name: metrapp-db
+    plan: free
