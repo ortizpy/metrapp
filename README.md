@@ -1,4 +1,4 @@
-GestiónCal - App de Gestión de Calibraciones
+MetrApp - App de Gestión de Calibraciones
 Descripción del Proyecto
 GestiónCal es una aplicación web diseñada para la gestión integral del ciclo de vida de patrones e instrumentos de medición en laboratorios de calibración. El objetivo es centralizar la información, automatizar cálculos metrológicos clave, predecir fechas de calibración y generar alertas para mejorar la eficiencia, la calidad y la trazabilidad metrológica del laboratorio.
 
@@ -69,6 +69,6 @@ cd frontend
 npm install
 npm start
 
-La aplicación de React estará disponible en http://localhost:3000.
+La aplicación de React estará disponible en http://127.0.0.1:8000/.
 
 Este README.md es un documento vivo y será actualizado a medida que el proyecto avance.
