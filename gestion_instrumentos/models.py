@@ -50,7 +50,7 @@ class Instrumento(models.Model):
 
     # Sección 2: Datos de Adquisición y Patrimonio
     fecha_adquisicion = models.DateField()
-    costo_adquisicion = models.DecimalField(max_digits=15, decimal_places=2, null=True, blank=True)
+    costo_adquisicion = models.DecimalField(max_digits=15, decimal_places=0, null=True, blank=True)
     llamado_contrato = models.CharField(max_length=255, null=True, blank=True)
     proveedor = models.CharField(max_length=255, null=True, blank=True)
 
@@ -61,14 +61,21 @@ class Instrumento(models.Model):
     garantia_vigente = models.CharField(
         max_length=2,
         choices=GARANTIA_CHOICES,
-        null=True,
-        blank=True
+        default='NO'
     )
 
     fecha_vencimiento_garantia = models.DateField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.nombre_tecnico} ({self.codigo_unico})"
+
+    # Sección 3: Calibración y Trazabilidad (Inicial)
+    fecha_calibracion_inicial = models.DateField(null=True, blank=True)
+    ultima_fecha_calibracion = models.DateField(null=True, blank=True)
+    calibrado_por = models.CharField(max_length=255, null=True, blank=True)
+    numero_certificado_calibracion = models.CharField(max_length=255, null=True, blank=True)
+    patron_asociado = models.CharField(max_length=255, null=True, blank=True)
+    intervalo_calibracion = models.PositiveIntegerField(null=True, blank=True)
 
 
 
@@ -110,6 +117,15 @@ class UsuarioManager(BaseUserManager):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
         return self.create_user(email, password, **extra_fields)
+    
+class ArchivoCertificado(models.Model):
+    instrumento = models.ForeignKey(Instrumento, on_delete=models.CASCADE, related_name='archivos_certificados')
+    archivo = models.FileField(upload_to='certificados/')
+    descripcion = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return f"Certificado - {self.instrumento.codigo_unico}"
+
 
 class Usuario(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)

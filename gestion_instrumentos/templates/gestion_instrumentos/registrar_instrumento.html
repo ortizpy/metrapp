@@ -6,19 +6,24 @@
 <div class="container mt-4">
     <h2 class="mb-4">Registrar Nuevo Instrumento</h2>
 
-    <form method="post" class="needs-validation" novalidate>
+    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
         {% csrf_token %}
 
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <h5 class="mb-3">1) Identificación General del Equipo</h5>
         {% for field in form %}
-            {% if field.name != 'garantia_vigente' and field.name != 'fecha_vencimiento_garantia' %}
+            {% if field.name in 'codigo_unico nombre_tecnico marca_modelo numero_serie clasificacion_metrologica laboratorio_responsable peso_neto peso_bruto dimensiones' %}
                 <div class="mb-3">
                     <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
                     {{ field }}
-
                     {% if field.help_text %}
                         <div class="form-text">{{ field.help_text }}</div>
                     {% endif %}
-
                     {% for error in field.errors %}
                         <div class="text-danger">{{ error }}</div>
                     {% endfor %}
@@ -26,63 +31,111 @@
             {% endif %}
         {% endfor %}
 
-        <!-- Garantía vigente como radio buttons -->
+        <hr class="my-4">
+
+        <h5 class="mb-3">2) Datos de Adquisición y Patrimonio</h5>
+        {% for field in form %}
+            {% if field.name in 'fecha_adquisicion costo_adquisicion llamado_contrato proveedor fuente_financiacion fuente_otro' %}
+                <div class="mb-3 {% if field.name == 'fuente_otro' %}d-none{% endif %}" id="grupo_{{ field.name }}">
+                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <div class="form-text">{{ field.help_text }}</div>
+                    {% endif %}
+                    {% for error in field.errors %}
+                        <div class="text-danger">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endfor %}
+
         <div class="mb-3">
-            <label class="form-label">Garantía vigente</label>
+            <label class="form-label">¿Garantía vigente?</label>
             {% for radio in form.garantia_vigente %}
-                <div class="form-check">
+                <div class="form-check form-check-inline">
                     {{ radio.tag }}
                     <label class="form-check-label" for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
                 </div>
             {% endfor %}
+            {% for error in form.garantia_vigente.errors %}
+                <div class="text-danger">{{ error }}</div>
+            {% endfor %}
         </div>
 
-        <!-- Campo Fecha vencimiento garantía -->
         <div class="mb-3 d-none" id="grupo_fecha_vencimiento">
             <label for="id_fecha_vencimiento_garantia" class="form-label">Fecha vencimiento garantía</label>
             {{ form.fecha_vencimiento_garantia }}
+            {% for error in form.fecha_vencimiento_garantia.errors %}
+                <div class="text-danger">{{ error }}</div>
+            {% endfor %}
         </div>
 
-        <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const fuenteFinanciacion = document.getElementById("id_fuente_financiacion");
-            const fuenteOtro = document.getElementById("id_fuente_otro");
-            const fechaVencimiento = document.getElementById("id_fecha_vencimiento_garantia");
-            const grupoFecha = document.getElementById("grupo_fecha_vencimiento");
+        <hr class="my-4">
 
-            function toggleFuenteOtro() {
-                if (fuenteFinanciacion && fuenteFinanciacion.value === "OTRO") {
-                    fuenteOtro?.classList.remove("d-none");
-                } else {
-                    fuenteOtro?.classList.add("d-none");
-                    if (fuenteOtro) fuenteOtro.value = "";
-                }
-            }
+        <h5 class="mb-3">3) Calibración y Trazabilidad (Inicial)</h5>
+        {% for field in form %}
+            {% if field.name in 'fecha_calibracion_inicial ultima_fecha_calibracion calibrado_por numero_certificado_calibracion patron_asociado intervalo_calibracion' %}
+                <div class="mb-3">
+                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <div class="form-text">{{ field.help_text }}</div>
+                    {% endif %}
+                    {% for error in field.errors %}
+                        <div class="text-danger">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endfor %}
 
-            function toggleFechaVencimiento() {
-                const seleccion = document.querySelector('input[name="garantia_vigente"]:checked');
-                if (seleccion && seleccion.value === "SI") {
-                    grupoFecha.classList.remove("d-none");
-                } else {
-                    grupoFecha.classList.add("d-none");
-                    if (fechaVencimiento) fechaVencimiento.value = "";
-                }
-            }
+        <hr class="my-4">
 
-            fuenteFinanciacion?.addEventListener("change", toggleFuenteOtro);
-
-            const garantiaRadios = document.querySelectorAll('input[name="garantia_vigente"]');
-            garantiaRadios.forEach(radio => {
-                radio.addEventListener("change", toggleFechaVencimiento);
-            });
-
-            toggleFuenteOtro();
-            toggleFechaVencimiento();
-        });
-        </script>
+        <h5 class="mb-3">Certificados de Calibración (archivos)</h5>
+        <div class="mb-3">
+            <label for="id_archivo_certificados" class="form-label">Subir archivo(s) PDF</label>
+            <input type="file" name="archivo" id="id_archivo_certificados" class="form-control" multiple accept="application/pdf">
+            <div class="form-text">Puede seleccionar uno o varios archivos PDF.</div>
+        </div>
 
         <button type="submit" class="btn btn-primary">Guardar</button>
         <a href="{% url 'dashboard' %}" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const fuenteFinanciacion = document.getElementById("id_fuente_financiacion");
+    const fuenteOtro = document.getElementById("grupo_fuente_otro");
+    const fechaVencimiento = document.getElementById("id_fecha_vencimiento_garantia");
+    const grupoFecha = document.getElementById("grupo_fecha_vencimiento");
+
+    function toggleFuenteOtro() {
+        if (fuenteFinanciacion && fuenteFinanciacion.value === "OTRO") {
+            fuenteOtro.classList.remove("d-none");
+        } else {
+            fuenteOtro.classList.add("d-none");
+            document.getElementById("id_fuente_otro").value = "";
+        }
+    }
+
+    function toggleFechaVencimiento() {
+        const seleccion = document.querySelector('input[name="garantia_vigente"]:checked');
+        if (seleccion && seleccion.value === "SI") {
+            grupoFecha.classList.remove("d-none");
+        } else {
+            grupoFecha.classList.add("d-none");
+            fechaVencimiento.value = "";
+        }
+    }
+
+    fuenteFinanciacion?.addEventListener("change", toggleFuenteOtro);
+    const garantiaRadios = document.querySelectorAll('input[name="garantia_vigente"]');
+    garantiaRadios.forEach(radio => radio.addEventListener("change", toggleFechaVencimiento));
+
+    toggleFuenteOtro();
+    toggleFechaVencimiento();
+});
+</script>
 {% endblock %}

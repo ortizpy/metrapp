@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load humanize %}
+
 {% block title %}Detalle del Instrumento{% endblock %}
 
 {% block content %}
@@ -7,49 +9,113 @@
     <h2 class="mb-4">Detalle del Instrumento</h2>
 
     <div class="card mb-4">
+        <div class="card-header">
+            <strong>{{ instrumento.nombre_tecnico }}</strong>
+        </div>
         <div class="card-body">
-            <h5 class="card-title">{{ instrumento.nombre }}</h5>
-            <p class="card-text"><strong>Número Interno:</strong> {{ instrumento.codigo_unico }}</p>
-            <p class="card-text"><strong>Número de Serie:</strong> {{ instrumento.numero_serie }}</p>
-            <p class="card-text"><strong>Marca/Modelo:</strong> {{ instrumento.marca_modelo }}</p>
-            <p class="card-text"><strong>Fecha de Adquisición:</strong> {{ instrumento.fecha_adquisicion }}</p>
-            <p class="card-text"><strong>Ubicación:</strong> {{ instrumento.laboratorio_responsable }}</p>
+            <p><strong>Código Interno:</strong> {{ instrumento.codigo_unico }}</p>
+            <p><strong>Número de Serie:</strong> {{ instrumento.numero_serie }}</p>
+            <p><strong>Marca/Modelo:</strong> {{ instrumento.marca_modelo }}</p>
+            <p><strong>Clasificación Metrológica:</strong> {{ instrumento.get_clasificacion_metrologica_display }}</p>
+            <p><strong>Laboratorio Responsable:</strong> {{ instrumento.get_laboratorio_responsable_display }}</p>
+            <p><strong>Dimensiones:</strong> {{ instrumento.dimensiones }}</p>
+            <p><strong>Peso Neto:</strong> {{ instrumento.peso_neto }} kg</p>
+            <p><strong>Peso Bruto:</strong> {{ instrumento.peso_bruto }} kg</p>
         </div>
     </div>
 
-    <h4 class="mt-5">Certificados de Calibración</h4>
-    {% if instrumento.certificados.all %}
-        <table class="table table-striped mt-3">
-            <thead class="table-dark">
-                <tr>
-                    <th>Fecha de Calibración</th>
-                    <th>Próxima Calibración</th>
-                    <th>Técnico</th>
-                    <th>Incertidumbre</th>
-                    <th>Archivo</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for cert in instrumento.certificados.all %}
-                <tr>
-                    <td>{{ cert.fecha_calibracion }}</td>
-                    <td>{{ cert.fecha_proxima_calibracion }}</td>
-                    <td>{{ cert.tecnico }}</td>
-                    <td>{{ cert.incertidumbre }}</td>
-                    <td>
-                        {% if cert.archivo_pdf %}
-                            <a href="{{ cert.archivo_pdf.url }}" target="_blank">Ver PDF</a>
-                        {% else %}
-                            No disponible
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>No hay certificados cargados.</p>
-    {% endif %}
+    <div class="card mb-4">
+        <div class="card-header">
+            <strong>Datos de Adquisición</strong>
+        </div>
+        <div class="card-body">
+            <p><strong>Fecha de Adquisición:</strong> {{ instrumento.fecha_adquisicion }}</p>
+            <p><strong>Costo de Adquisición:</strong> {{ instrumento.costo_adquisicion|intcomma }}</p>
+            <p><strong>Proveedor:</strong> {{ instrumento.proveedor }}</p>
+            <p><strong>Llamado/Contrato:</strong> {{ instrumento.llamado_contrato }}</p>
+            <p><strong>Fuente de Financiación:</strong> {{ instrumento.get_fuente_financiacion_display }}</p>
+            {% if instrumento.fuente_financiacion == 'OTRO' %}
+            <p><strong>Detalle de Fuente:</strong> {{ instrumento.fuente_otro }}</p>
+            {% endif %}
+            <p><strong>¿Garantía Vigente?:</strong> {{ instrumento.get_garantia_vigente_display }}</p>
+            {% if instrumento.garantia_vigente == 'SI' %}
+            <p><strong>Fecha de Vencimiento de Garantía:</strong> {{ instrumento.fecha_vencimiento_garantia }}</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <strong>Calibración y Trazabilidad</strong>
+        </div>
+        <div class="card-body">
+            <p><strong>Fecha Calibración Inicial:</strong> {{ instrumento.fecha_calibracion_inicial }}</p>
+            <p><strong>Última Fecha de Calibración:</strong> {{ instrumento.ultima_fecha_calibracion }}</p>
+            <p><strong>Calibrado por:</strong> {{ instrumento.calibrado_por }}</p>
+            <p><strong>N° Certificado de Calibración:</strong> {{ instrumento.numero_certificado_calibracion }}</p>
+            <p><strong>Patrón Asociado:</strong> {{ instrumento.patron_asociado }}</p>
+            <p><strong>Intervalo de Calibración (meses):</strong> {{ instrumento.intervalo_calibracion }}</p>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <strong>Certificados de Calibración</strong>
+        </div>
+        <div class="card-body">
+            {% if instrumento.certificados.all %}
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Fecha Calibración</th>
+                            <th>Próxima Calibración</th>
+                            <th>Técnico</th>
+                            <th>Incertidumbre</th>
+                            <th>Archivo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cert in instrumento.certificados.all %}
+                        <tr>
+                            <td>{{ cert.fecha_calibracion }}</td>
+                            <td>{{ cert.fecha_proxima_calibracion }}</td>
+                            <td>{{ cert.tecnico }}</td>
+                            <td>{{ cert.incertidumbre }}</td>
+                            <td>
+                                {% if cert.archivo_pdf %}
+                                    <a href="{{ cert.archivo_pdf.url }}" target="_blank">Ver PDF</a>
+                                {% else %}
+                                    No disponible
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No hay certificados cargados.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <strong>Archivos Adjuntos</strong>
+        </div>
+        <div class="card-body">
+            {% if instrumento.archivos_certificados.all %}
+                <ul class="list-group">
+                    {% for archivo in instrumento.archivos_certificados.all %}
+                        <li class="list-group-item">
+                            <a href="{{ archivo.archivo.url }}" target="_blank">{{ archivo.descripcion|default:"Ver archivo" }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No hay archivos adicionales adjuntos.</p>
+            {% endif %}
+        </div>
+    </div>
 
     <a href="{% url 'listar_instrumentos' %}" class="btn btn-secondary mt-3">Volver al listado</a>
 </div>

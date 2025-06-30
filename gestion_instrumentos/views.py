@@ -4,7 +4,7 @@ from .decorators import role_required
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from .models import Instrumento
+from .models import Instrumento, ArchivoCertificado
 from .forms import InstrumentoForm
 
 @login_required
@@ -16,7 +16,16 @@ class InstrumentoCreateView(LoginRequiredMixin, CreateView):
     model = Instrumento
     form_class = InstrumentoForm
     template_name = 'gestion_instrumentos/registrar_instrumento.html'
-    success_url = reverse_lazy('dashboard')
+    success_url = reverse_lazy('listar_instrumentos')
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        for f in self.request.FILES.getlist('archivo'):
+            ArchivoCertificado.objects.create(
+                instrumento=self.object,
+                archivo=f
+            )
+        return response
 
 class InstrumentoListView(LoginRequiredMixin, ListView):
     model = Instrumento
