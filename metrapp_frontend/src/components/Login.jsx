@@ -14,12 +14,12 @@ export default function Login() {
     formData.append('username', email);  // Django espera "username"
     formData.append('password', password);
 
-    const response = await fetch('https://metrapp.onrender.com/accounts/login/', {
+    const response = await fetch('https://metrapp.onrender.com/usuarios/login/', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Content-Type': 'application/json'
       },
-      body: formData,
+      body: JSON.stringify({ username:email, password }),
       credentials: 'include'  // Para que Django cree cookie de sesión
     });
 

@@ -1,10 +1,28 @@
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import authenticate, login
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+import json
 
 # Create your views here.
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .serializers import UsuarioRegistroSerializer
+
+@csrf_exempt
+@require_POST
+def login_api(request):
+    data = json.loads(request.body)
+    username = data.get('username')
+    password = data.get('password')
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        login(request, user)
+        return JsonResponse({'message': 'Login correcto'}, status=200)
+    else:
+        return JsonResponse({'error': 'Credenciales inválidas'}, status=403)
 
 @api_view(['POST'])
 def api_registrar_usuario(request):
