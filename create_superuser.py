@@ -13,7 +13,7 @@ admin_email = "admin@example.com"
 if not User.objects.filter(email=admin_email).exists():
     User.objects.create_superuser(
         email=admin_email,
-        nombre_completo="Administrador",
+        nombre="Administrador",  # ← campo correcto del modelo
         rol="ADMIN",
         password="admin1234"
     )
