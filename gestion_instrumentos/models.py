@@ -107,21 +107,6 @@ class HistorialDeriva(models.Model):
     def __str__(self):
         return f"Deriva de {self.instrumento} - {self.fecha}"
 
-
-class UsuarioManager(BaseUserManager):
-    def create_user(self, email, password=None, **extra_fields):
-        if not email:
-            raise ValueError('El correo electrónico es obligatorio')
-        email = self.normalize_email(email)
-        user = self.model(email=email, **extra_fields)
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
-
-    def create_superuser(self, email, password=None, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
-        return self.create_user(email, password, **extra_fields)
     
 class ArchivoCertificado(models.Model):
     instrumento = models.ForeignKey(Instrumento, on_delete=models.CASCADE, related_name='archivos_certificados')
@@ -130,21 +115,3 @@ class ArchivoCertificado(models.Model):
 
     def __str__(self):
         return f"Certificado - {self.instrumento.codigo_unico}"
-
-
-class Usuario(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(unique=True)
-    nombre_completo = models.CharField(max_length=255)
-    rol = models.CharField(max_length=50, choices=[('ADMIN', 'Admin'), ('JEFE', 'Jefe'), ('TECNICO', 'Técnico')])
-    is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
-    date_joined = models.DateTimeField(default=timezone.now)
-
-    objects = UsuarioManager()
-
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['nombre_completo', 'rol']
-
-    def __str__(self):
-        return self.email
-

@@ -34,9 +34,13 @@ INSTALLED_APPS = [
     'gestion_instrumentos',
     'rest_framework',
     'django.contrib.humanize',
+    'usuarios',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -96,7 +100,15 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'gestion_instrumentos.Usuario'
+AUTH_USER_MODEL = 'usuarios.Usuario'
+
+
+# Origen del frontend en desarrollo
+CORS_ALLOWED_ORIGINS = [
+    "https://metrapp-frontend.onrender.com",  # frontend Render
+]
+# Habilitar credenciales para cookies de sesión
+CORS_ALLOW_CREDENTIALS = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
