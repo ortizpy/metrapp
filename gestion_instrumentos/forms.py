@@ -46,6 +46,16 @@ class InstrumentoForm(forms.ModelForm):
             'numero_certificado_calibracion': forms.TextInput(attrs={'class': 'form-control'}),
             'patron_asociado': forms.TextInput(attrs={'class': 'form-control'}),
             'intervalo_calibracion': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Meses'}),
+
+            # Sección 4
+            'intervalo_verificacion': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Meses'}),
+            'parametro_verificado': forms.TextInput(attrs={'class': 'form-control'}),
+            'tolerancia_permitida': forms.TextInput(attrs={'class': 'form-control'}),
+            'criterio_aceptacion': forms.TextInput(attrs={
+                'class': 'form-control',
+                'title': 'Los criterios de aceptación deben estar documentados y referidos en los procedimientos internos del laboratorio.'
+            }),
+            'observaciones_verificacion': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
         }
 
     def clean_fecha_adquisicion(self):

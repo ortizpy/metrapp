@@ -117,6 +117,24 @@
         </div>
     </div>
 
+    <div class="card mb-4">
+    <div class="card-header">
+        <strong>Verificación y Criterios de Aceptación</strong>
+    </div>
+    <div class="card-body">
+        <p><strong>Intervalo de Verificación Intermedia (meses):</strong> {{ instrumento.intervalo_verificacion }}</p>
+        <p><strong>Parámetro Verificado:</strong> {{ instrumento.parametro_verificado }}</p>
+        <p><strong>Tolerancia Permitida:</strong> {{ instrumento.tolerancia_permitida }}</p>
+        <p>
+            <strong>Criterio de Aceptación:</strong>
+            {{ instrumento.criterio_aceptacion }}
+            <span title="Los criterios de aceptación deben estar documentados y referidos en los procedimientos internos del laboratorio." style="cursor: help;">🛈</span>
+        </p>
+        <p><strong>Observaciones:</strong> {{ instrumento.observaciones_verificacion }}</p>
+    </div>
+    </div>
+
+
     <a href="{% url 'listar_instrumentos' %}" class="btn btn-secondary mt-3">Volver al listado</a>
 </div>
 {% endblock %}
