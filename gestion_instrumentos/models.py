@@ -77,7 +77,12 @@ class Instrumento(models.Model):
     patron_asociado = models.CharField(max_length=255, null=True, blank=True)
     intervalo_calibracion = models.PositiveIntegerField(null=True, blank=True)
 
-
+    # Sección 4: Verificación y Criterios de Aceptación
+    intervalo_verificacion = models.PositiveIntegerField(null=True, blank=True, help_text="Frecuencia en meses")
+    parametro_verificado = models.CharField(max_length=255, null=True, blank=True)
+    tolerancia_permitida = models.CharField(max_length=255, null=True, blank=True)
+    criterio_aceptacion = models.CharField(max_length=500, null=True, blank=True)
+    observaciones_verificacion = models.TextField(null=True, blank=True)
 
 
 class CertificadoCalibracion(models.Model):
