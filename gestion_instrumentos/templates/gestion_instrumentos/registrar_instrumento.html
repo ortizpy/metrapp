@@ -97,34 +97,34 @@
             <div class="form-text">Puede seleccionar uno o varios archivos PDF.</div>
         </div>
 
+        <hr class="my-4">
+        <h5 class="mb-3">4) Verificación y Criterios de Aceptación</h5>
+        
+        {% for field in form %}
+        {% if field.name in 'intervalo_verificacion parametro_verificado tolerancia_permitida criterio_aceptacion observaciones_verificacion' %}
+        <div class="mb-3">
+            <label for="{{ field.id_for_label }}" class="form-label">
+                {{ field.label }}
+                {% if field.name == 'criterio_aceptacion' %}
+                <span title="Los criterios de aceptación deben estar documentados y referidos en los procedimientos internos del laboratorio." style="cursor: help;">🛈</span>
+                {% endif %}
+            </label>
+            {{ field }}
+            {% if field.help_text %}
+            <div class="form-text">{{ field.help_text }}</div>
+            {% endif %}
+            {% for error in field.errors %}
+            <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endfor %}
+        
         <div class="mt-4">
             <button type="submit" class="btn btn-primary">Guardar</button>
             <a href="{% url 'dashboard' %}" class="btn btn-secondary">Cancelar</a>
         </div>
-        <hr class="my-4">
-        <h5 class="mb-3">4) Verificación y Criterios de Aceptación</h5>
-
-        {% for field in form %}
-            {% if field.name in 'intervalo_verificacion parametro_verificado tolerancia_permitida criterio_aceptacion observaciones_verificacion' %}
-                <div class="mb-3">
-                    <label for="{{ field.id_for_label }}" class="form-label">
-                        {{ field.label }}
-                        {% if field.name == 'criterio_aceptacion' %}
-                            <span title="Los criterios de aceptación deben estar documentados y referidos en los procedimientos internos del laboratorio." style="cursor: help;">🛈</span>
-                        {% endif %}
-                    </label>
-                    {{ field }}
-                    {% if field.help_text %}
-                        <div class="form-text">{{ field.help_text }}</div>
-                    {% endif %}
-                    {% for error in field.errors %}
-                        <div class="text-danger">{{ error }}</div>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        {% endfor %}
-
-
+        
     </form>
 </div>
 {% endblock %}
