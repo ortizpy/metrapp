@@ -11,7 +11,7 @@ export default function Login() {
     e.preventDefault();
 
     const formData = new URLSearchParams();
-    formData.append('username', email);  // Django espera "username"
+    formData.append('email', email);  // Django espera "username"
     formData.append('password', password);
 
     const response = await fetch('https://metrapp.onrender.com/usuarios/login/', {
