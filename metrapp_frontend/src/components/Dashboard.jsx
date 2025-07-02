@@ -7,6 +7,14 @@ export default function Dashboard() {
   const [data, setData] = useState(null);
   const navigate = useNavigate();
 
+  const handleLogout = async () => {
+  await fetch('https://metrapp.onrender.com/usuarios/logout/', {
+    method: 'GET',
+    credentials: 'include'
+  });
+  navigate('/');
+};
+
   useEffect(() => {
     fetch('https://metrapp.onrender.com/usuarios/dashboard/', {
       credentials: 'include'
