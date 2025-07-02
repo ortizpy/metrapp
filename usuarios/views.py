@@ -17,9 +17,9 @@ from .serializers import UsuarioRegistroSerializer
 @require_POST
 def login_api(request):
     data = json.loads(request.body)
-    username = data.get('username')
+    email = data.get('email')
     password = data.get('password')
-    user = authenticate(request, username=username, password=password)
+    user = authenticate(request, email=email, password=password)
     if user is not None:
         login(request, user)
         return JsonResponse({'message': 'Login correcto'}, status=200)
