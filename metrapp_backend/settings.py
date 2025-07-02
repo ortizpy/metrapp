@@ -102,6 +102,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTH_USER_MODEL = 'usuarios.Usuario'
 
+AUTHENTICATION_BACKENDS = [
+    'usuarios.backends.EmailBackend',  # nueva clase para autenticación por email
+]
+
 
 # Origen del frontend en desarrollo
 CORS_ALLOWED_ORIGINS = [
