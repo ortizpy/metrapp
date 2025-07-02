@@ -1,3 +1,58 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Navbar from "./Navbar";
+import Sidebar from "./Sidebar";
 export default function Dashboard() {
-  return <h2>Bienvenido al Dashboard</h2>;
+  const [data, setData] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetch('https://metrapp.onrender.com/usuarios/dashboard/', {
+      credentials: 'include'
+    })
+      .then(res => {
+        if (res.ok) return res.json();
+        throw new Error();
+      })
+      .then(setData)
+      .catch(() => navigate('/'));
+  }, [navigate]);
+
+  if (!data) return <p>Cargando dashboard...</p>;
+
+  return (
+    <div>
+      <h2>Bienvenido al Dashboard</h2>
+      <p><strong>Usuario:</strong> {data.nombre} ({data.email})</p>
+      <p><strong>Rol:</strong> {data.rol}</p>
+      <p><strong>Total de instrumentos:</strong> {data.total_instrumentos}</p>
+      <p><strong>Total de certificados:</strong> {data.total_certificados}</p>
+
+      {data.puede_generar_reportes && (
+        <div>
+          <h3>🔍 Módulo de reportes (en construcción)</h3>
+          <p>Próximamente podrás generar informes aquí.</p>
+        </div>
+      )}
+    </div>
+  );
 }
+return (
+  <>
+    <Navbar user={data} onLogout={handleLogout} />
+    <main style={{ padding: 20 }}>
+      <h2>Bienvenido al Dashboard</h2>
+      {/* contenido dinámico */}
+    </main>
+  </>
+);
+
+return (
+  <div style={{ display: "flex" }}>
+    <Sidebar user={data} onLogout={handleLogout} />
+    <main style={{ padding: 20 }}>
+      <h2>Bienvenido al Dashboard</h2>
+      {/* Resto de métricas */}
+    </main>
+  </div>
+);

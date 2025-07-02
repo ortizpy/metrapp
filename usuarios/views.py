@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_GET
 import json
+from django.contrib.auth.decorators import login_required
+from gestion_instrumentos.models import Instrumento, CertificadoCalibracion
 
 # Create your views here.
 from rest_framework import status
@@ -23,6 +25,12 @@ def login_api(request):
         return JsonResponse({'message': 'Login correcto'}, status=200)
     else:
         return JsonResponse({'error': 'Credenciales inválidas'}, status=403)
+    
+@csrf_exempt
+@require_GET
+def logout_view(request):
+    logout(request)
+    return JsonResponse({'message': 'Sesión cerrada'})
 
 @api_view(['POST'])
 def api_registrar_usuario(request):
@@ -38,3 +46,19 @@ def api_registrar_usuario(request):
         return Response({"mensaje": "Usuario registrado correctamente."}, status=status.HTTP_201_CREATED)
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@login_required
+def dashboard_data(request):
+    usuario = request.user
+    rol = usuario.rol.upper()
+
+    data = {
+        'nombre': usuario.nombre,
+        'email': usuario.email,
+        'rol': rol,
+        'total_instrumentos': Instrumento.objects.count(),
+        'total_certificados': CertificadoCalibracion.objects.count(),
+        'puede_generar_reportes': rol in ['ADMIN', 'JEFE']
+    }
+
+    return JsonResponse(data)
