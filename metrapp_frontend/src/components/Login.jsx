@@ -17,9 +17,9 @@ export default function Login() {
     const response = await fetch('https://metrapp.onrender.com/usuarios/login/', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/x-www-form-urlencoded'
       },
-      body: JSON.stringify({ username:email, password }),
+      body: formData,
       credentials: 'include'  // Para que Django cree cookie de sesión
     });
 
