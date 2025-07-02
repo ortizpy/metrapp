@@ -34,7 +34,3 @@ export default function Layout() {
     </>
   );
 }
-<Route path="/" element={<Layout />}>
-  <Route path="dashboard" element={<Dashboard />} />
-  <Route path="reportes" element={<Reportes />} />
-</Route>

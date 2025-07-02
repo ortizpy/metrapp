@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
+import './Dashboard.css';
 export default function Dashboard() {
   const [data, setData] = useState(null);
   const navigate = useNavigate();
@@ -36,9 +37,8 @@ export default function Dashboard() {
       )}
     </div>
   );
-}
-return (
-  <>
+  return (
+    <>
     <Navbar user={data} onLogout={handleLogout} />
     <main style={{ padding: 20 }}>
       <h2>Bienvenido al Dashboard</h2>
@@ -48,7 +48,7 @@ return (
 );
 
 return (
-  <div style={{ display: "flex" }}>
+  <div className="dashboard-container">
     <Sidebar user={data} onLogout={handleLogout} />
     <main style={{ padding: 20 }}>
       <h2>Bienvenido al Dashboard</h2>
@@ -56,3 +56,4 @@ return (
     </main>
   </div>
 );
+}
