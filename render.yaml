@@ -3,7 +3,8 @@ services:
     name: metrapp-backend
     env: python
     plan: free
-    buildCommand: pip install -r requirements.txt
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
+    staticPublishPath: staticfiles
     startCommand: python manage.py migrate && gunicorn metrapp_backend.wsgi
     autoDeploy: true
     envVars:
