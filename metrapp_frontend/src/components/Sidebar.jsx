@@ -1,7 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
 
-<aside className="sidebar"></aside>
-
 export default function Sidebar({ user, onLogout }) {
   const location = useLocation();
 
