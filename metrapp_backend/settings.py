@@ -107,13 +107,15 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 
+# Habilitar credenciales para cookies de sesión
+CORS_ALLOW_CREDENTIALS = True
 # Origen del frontend en desarrollo
 CORS_ALLOWED_ORIGINS = [
     "https://metrapp-frontend.onrender.com",  # frontend Render
 ]
-# Habilitar credenciales para cookies de sesión
-CORS_ALLOW_CREDENTIALS = True
-
+CSRF_TRUSTED_ORIGINS = [
+    "https://metrapp-frontend.onrender.com"
+]
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
