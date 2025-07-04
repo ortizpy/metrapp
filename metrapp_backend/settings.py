@@ -119,6 +119,11 @@ CSRF_TRUSTED_ORIGINS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
+SESSION_COOKIE_SAMESITE = "Lax"
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+
 LANGUAGE_CODE = 'es'
 
 TIME_ZONE = 'America/Asuncion'
