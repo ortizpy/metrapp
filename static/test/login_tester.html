@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tester de Login - MetrApp</title>
+</head>
+<body>
+  <h2>🔐 Tester de Login</h2>
+  <form id="loginForm">
+    <label>
+      Correo:
+      <input name="email" type="email" value="admin@example.com" required />
+    </label>
+    <br><br>
+    <label>
+      Contraseña:
+      <input name="password" type="password" value="admin1234" required />
+    </label>
+    <br><br>
+    <button type="submit">Iniciar sesión</button>
+  </form>
+
+  <h3>🧾 Resultado:</h3>
+  <pre id="output" style="background:#eee;padding:10px;"></pre>
+
+  <script>
+    const output = document.getElementById("output");
+
+    document.getElementById("loginForm").onsubmit = async (e) => {
+      e.preventDefault();
+      output.textContent = "Enviando credenciales...";
+
+      const email = e.target.email.value;
+      const password = e.target.password.value;
+
+      try {
+        const loginRes = await fetch("https://metrapp.onrender.com/usuarios/login/", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+          credentials: "include"
+        });
+
+        const loginData = await loginRes.text();
+        output.textContent = `Respuesta del login:\n${loginData}`;
+
+        if (loginRes.ok) {
+          const dashRes = await fetch("https://metrapp.onrender.com/usuarios/dashboard/", {
+            credentials: "include"
+          });
+          const dashData = await dashRes.text();
+          output.textContent += `\n\nDatos del dashboard:\n${dashData}`;
+        }
+      } catch (error) {
+        output.textContent = "⚠️ Error en login: " + error.message;
+      }
+    };
+  </script>
+</body>
+</html>
