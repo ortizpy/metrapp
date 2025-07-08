@@ -95,7 +95,7 @@ export default function RegistrarInstrumento() {
             <input name="nombre_tecnico" value={formData.nombre_tecnico} onChange={handleChange} className="input-field" placeholder="Ej.: Comparador de masas" required />
           </div>
           <div>
-            <Label htmlFor="marca_modelo" required>Marca / Modelo</Label>
+            <Label htmlFor="marca_modelo" required>Marca y Modelo</Label>
             <input name="marca_modelo" value={formData.marca_modelo} onChange={handleChange} className="input-field" placeholder="Ej.: Mettler Toledo XP56" required />
           </div>
           <div>
