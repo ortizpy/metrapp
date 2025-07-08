@@ -23,16 +23,9 @@ export default function Navbar({ user, onLogout }) {
         {user.puede_generar_reportes && (
           <Link to="/reportes" style={{ marginRight: 15 }}>Reportes</Link>
         )}
-        <button onClick={onLogout}style={{
-            backgroundColor: '#dc3545',
-            color: '#fff',
-            border: 'none',
-            padding: '6px 12px',
-            borderRadius: '4px',
-            cursor: 'pointer'
-            }}>
-          Cerrar sesión
-        </button>
+        <Link to="/registrar-instrumento" style={{ marginRight: 15 }}>Registrar Instrumento</Link>
+        <Link to="/ver-instrumentos" style={{ marginRight: 15 }}>Ver Instrumentos</Link>
+        <button onClick={onLogout}>Cerrar sesión</button>
       </nav>
     </header>
   );

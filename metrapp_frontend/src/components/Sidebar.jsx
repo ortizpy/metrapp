@@ -32,6 +32,9 @@ export default function Sidebar({ user, onLogout }) {
         {user.puede_generar_reportes && (
           <Link to="/reportes" style={linkStyle("/reportes")}>📈 Reportes</Link>
         )}
+
+        <Link to="/registrar-instrumento" style={linkStyle("/registrar-instrumento")}>➕ Registrar Instrumento</Link>
+        <Link to="/ver-instrumentos" style={linkStyle("/ver-instrumentos")}>📋 Ver Instrumentos</Link>
       </nav>
 
       <button onClick={onLogout} style={{
