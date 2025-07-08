@@ -138,12 +138,12 @@ export default function RegistrarInstrumento() {
             <input name="costo_adquisicion" value={formData.costo_adquisicion} onChange={handleChange} className="input-field" placeholder="Ej.: 3500000" />
           </div>
           <div>
-            <Label htmlFor="llamado_contrato">Llamado / Contrato</Label>
+            <Label htmlFor="llamado_contrato">Llamado ID</Label>
             <input name="llamado_contrato" value={formData.llamado_contrato} onChange={handleChange} className="input-field" placeholder="Ej.: ID 398/2023" />
           </div>
           <div>
             <Label htmlFor="proveedor">Proveedor</Label>
-            <input name="proveedor" value={formData.proveedor} onChange={handleChange} className="input-field" placeholder="Ej.: Meditech S.A." />
+            <input name="proveedor" value={formData.proveedor} onChange={handleChange} className="input-field" placeholder="Ej.: Metrología S.A." />
           </div>
           <div>
             <Label htmlFor="fuente_financiacion">Fuente de Financiación</Label>
@@ -176,9 +176,59 @@ export default function RegistrarInstrumento() {
           )}
         </Seccion>
 
+        <Seccion titulo="3) Calibración y Trazabilidad (Inicial)">
+          <div>
+            <Label htmlFor="fecha_calibracion_inicial">Fecha de Calibración Inicial</Label>
+            <input type="date" name="fecha_calibracion_inicial" value={formData.fecha_calibracion_inicial} onChange={handleChange} className="input-field" />
+          </div>
+          <div>
+            <Label htmlFor="ultima_fecha_calibracion">Última Fecha de Calibración</Label>
+            <input type="date" name="ultima_fecha_calibracion" value={formData.ultima_fecha_calibracion} onChange={handleChange} className="input-field" />
+          </div>
+          <div>
+            <Label htmlFor="calibrado_por">Calibrado por</Label>
+            <input name="calibrado_por" value={formData.calibrado_por} onChange={handleChange} className="input-field" placeholder="Ej.: INTN – LPR" />
+          </div>
+          <div>
+            <Label htmlFor="numero_certificado_calibracion">N° de Certificado</Label>
+            <input name="numero_certificado_calibracion" value={formData.numero_certificado_calibracion} onChange={handleChange} className="input-field" placeholder="Ej.: CERT-245/23" />
+          </div>
+          <div>
+            <Label htmlFor="patron_asociado">Patrón Asociado</Label>
+            <input name="patron_asociado" value={formData.patron_asociado} onChange={handleChange} className="input-field" placeholder="Ej.: MASA-PN-001" />
+          </div>
+          <div>
+            <Label htmlFor="intervalo_calibracion">Intervalo de Calibración (meses)</Label>
+            <input type="number" name="intervalo_calibracion" value={formData.intervalo_calibracion} onChange={handleChange} className="input-field" placeholder="Ej.: 12" />
+          </div>
+        </Seccion>
+
+        <Seccion titulo="4) Verificación y Criterios de Aceptación">
+          <div>
+            <Label htmlFor="intervalo_verificacion">Intervalo de Verificación Intermedia (meses)</Label>
+            <input type="number" name="intervalo_verificacion" value={formData.intervalo_verificacion} onChange={handleChange} className="input-field" placeholder="Ej.: 6" />
+          </div>
+          <div>
+            <Label htmlFor="parametro_verificado">Parámetro Verificado</Label>
+            <input name="parametro_verificado" value={formData.parametro_verificado} onChange={handleChange} className="input-field" placeholder="Ej.: Masa nominal de 5 kg" />
+          </div>
+          <div>
+            <Label htmlFor="tolerancia_permitida">Tolerancia Permitida</Label>
+            <input name="tolerancia_permitida" value={formData.tolerancia_permitida} onChange={handleChange} className="input-field" placeholder="Ej.: ± 0,01 g" />
+          </div>
+          <div>
+            <Label htmlFor="criterio_aceptacion">Criterio de Aceptación <span title="Debe estar documentado en procedimientos internos.">🛈</span></Label>
+            <input name="criterio_aceptacion" value={formData.criterio_aceptacion} onChange={handleChange} className="input-field" placeholder="Ej.: Resultado dentro del 100 % del valor nominal" />
+          </div>
+          <div className="md:col-span-2">
+            <Label htmlFor="observaciones_verificacion">Observaciones</Label>
+            <textarea name="observaciones_verificacion" value={formData.observaciones_verificacion} onChange={handleChange} className="input-field" rows={3} placeholder="Observaciones adicionales..." />
+          </div>
+        </Seccion>
+
         <Seccion titulo="5) Archivos PDF">
           <div>
-            <Label htmlFor="archivos">Subir certificados en PDF</Label>
+            <Label htmlFor="archivos">Subir archivos en PDF</Label>
             <input type="file" multiple accept="application/pdf" onChange={handleFileChange} className="input-field" />
           </div>
         </Seccion>
