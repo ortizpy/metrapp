@@ -47,11 +47,8 @@ def api_registrar_usuario(request):
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@login_required(login_url=None)
-def dashboard_data(request):
-    if not request.user.is_authenticated:
-        return JsonResponse({'error': 'No autorizado'}, status=403)
-    
+@login_required(login_url='/usuarios/login/')
+def dashboard_data(request):    
     usuario = request.user
     rol = usuario.rol.upper()
 
