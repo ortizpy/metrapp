@@ -6,6 +6,7 @@ import Dashboard from './components/Dashboard';
 import Reportes from './components/Reportes';
 import RegistrarInstrumento from "./components/RegistrarInstrumento";
 import VerInstrumentos from "./components/VerInstrumentos";
+import './styles/tailwind-utils.css';
 
 function App() {
   return (

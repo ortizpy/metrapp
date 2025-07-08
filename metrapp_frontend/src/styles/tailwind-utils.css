@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 🎨 Utilidades personalizadas */
+.input-field {
+  @apply w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-bandera-azul;
+}
+
+.btn-primary {
+  @apply bg-bandera-azul text-white px-4 py-2 rounded hover:bg-blue-900 transition font-semibold;
+}
+
+.btn-secondary {
+  @apply bg-bandera-rojo text-white px-4 py-2 rounded hover:bg-red-800 transition font-semibold;
+}
+
+.card {
+  @apply bg-white border border-gray-200 rounded-lg shadow-sm p-4;
+}
