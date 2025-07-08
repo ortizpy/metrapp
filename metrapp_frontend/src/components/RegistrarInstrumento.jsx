@@ -128,7 +128,53 @@ export default function RegistrarInstrumento() {
           </div>
         </Seccion>
 
-        {/* Las demás secciones siguen el mismo patrón, con labels descriptivos y placeholders bien redactados... */}
+        <Seccion titulo="2) Adquisición y Patrimonio">
+          <div>
+            <Label htmlFor="fecha_adquisicion" required>Fecha de Adquisición</Label>
+            <input type="date" name="fecha_adquisicion" value={formData.fecha_adquisicion} onChange={handleChange} className="input-field" required />
+          </div>
+          <div>
+            <Label htmlFor="costo_adquisicion">Costo de Adquisición (₲)</Label>
+            <input name="costo_adquisicion" value={formData.costo_adquisicion} onChange={handleChange} className="input-field" placeholder="Ej.: 3500000" />
+          </div>
+          <div>
+            <Label htmlFor="llamado_contrato">Llamado / Contrato</Label>
+            <input name="llamado_contrato" value={formData.llamado_contrato} onChange={handleChange} className="input-field" placeholder="Ej.: ID 398/2023" />
+          </div>
+          <div>
+            <Label htmlFor="proveedor">Proveedor</Label>
+            <input name="proveedor" value={formData.proveedor} onChange={handleChange} className="input-field" placeholder="Ej.: Meditech S.A." />
+          </div>
+          <div>
+            <Label htmlFor="fuente_financiacion">Fuente de Financiación</Label>
+            <select name="fuente_financiacion" value={formData.fuente_financiacion} onChange={handleChange} className="input-field">
+              {FUENTES.map(op => <option key={op}>{op}</option>)}
+            </select>
+          </div>
+          {formData.fuente_financiacion === "OTRO" && (
+            <div>
+              <Label htmlFor="fuente_otro">Especifique otra fuente</Label>
+              <input name="fuente_otro" value={formData.fuente_otro} onChange={handleChange} className="input-field" placeholder="Ej.: Donación de empresa privada" />
+            </div>
+          )}
+          <div className="md:col-span-2">
+            <Label htmlFor="garantia_vigente" required>¿Garantía vigente?</Label>
+            <div className="flex gap-6 mt-1">
+              {GARANTIA.map(val => (
+                <label key={val} className="inline-flex items-center gap-2">
+                  <input type="radio" name="garantia_vigente" value={val} checked={formData.garantia_vigente === val} onChange={handleChange} />
+                  {val}
+                </label>
+              ))}
+            </div>
+          </div>
+          {formData.garantia_vigente === "SI" && (
+            <div>
+              <Label htmlFor="fecha_vencimiento_garantia" required>Fecha de Vencimiento de Garantía</Label>
+              <input type="date" name="fecha_vencimiento_garantia" value={formData.fecha_vencimiento_garantia} onChange={handleChange} className="input-field" required />
+            </div>
+          )}
+        </Seccion>
 
         <Seccion titulo="5) Archivos PDF">
           <div>
