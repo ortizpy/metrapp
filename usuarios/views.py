@@ -47,7 +47,7 @@ def api_registrar_usuario(request):
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@login_required(login_url='/usuarios/login/')
+@login_required(login_url='/usuarios/forbidden/')
 def dashboard_data(request):    
     usuario = request.user
     rol = usuario.rol.upper()
@@ -62,3 +62,8 @@ def dashboard_data(request):
     }
 
     return JsonResponse(data)
+
+from django.http import JsonResponse
+
+def forbidden_view(request):
+    return JsonResponse({'error': 'Autenticación requerida'}, status=403)
