@@ -74,14 +74,15 @@ export default function RegistrarInstrumento() {
   
 const handleChange = (e) => {
   const { name, value, type, files } = e.target;
+  
   if (type === "file") {
     dispatch({ type: "CAMBIAR_ARCHIVO", name, file: files[0] });
   } else {
     dispatch({ type: "CAMBIAR_CAMPO", name, value });
   }
 }
- = e.target;
-    setFormData(prev => ({
+
+    setFormData((prev) => ({
        ...prev,
        [name]: value,
       }));
