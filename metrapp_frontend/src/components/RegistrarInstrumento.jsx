@@ -51,7 +51,7 @@ export default function RegistrarInstrumento() {
     archivos.forEach(file => data.append("archivo", file));
 
     try {
-      await axios.post("/api/instrumentos/", data, {
+      await axios.post("https://metrapp.onrender.com/api/instrumentos/", data, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });
