@@ -18,24 +18,69 @@ const LABORATORIOS = [
 const FUENTES = ["TESORO", "PROYECTO", "COOPERACION", "OTRO"];
 const GARANTIA = ["SI", "NO"];
 
+
+const initialState = {
+  codigo_unico: "",
+  nombre_tecnico: "",
+  marca_modelo: "",
+  numero_serie: "",
+  clasificacion_metrologica: "PN",
+  laboratorio_responsable: "LPR",
+  peso_neto: "",
+  dimensiones: "",
+  fecha_adquisicion: "",
+  costo_adquisicion: "",
+  llamado_contrato: "",
+  proveedor: "",
+  fuente_financiacion: "COMPRA",
+  fuente_otro: "",
+  garantia_vigente: "",
+  fecha_vencimiento_garantia: "",
+  fecha_calibracion_inicial: "",
+  ultima_fecha_calibracion: "",
+  calibrado_por: "",
+  numero_certificado_calibracion: "",
+  patron_asociado: "",
+  intervalo_calibracion: "",
+  intervalo_verificacion: "",
+  parametro_verificado: "",
+  tolerancia_permitida: "",
+  criterio_aceptacion: "",
+  observaciones_verificacion: "",
+  certificado_calibracion: null,
+  ficha_tecnica: null,
+};
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "CAMBIAR_CAMPO":
+      return { ...state, [action.name]: action.value };
+    case "CAMBIAR_ARCHIVO":
+      return { ...state, [action.name]: action.file };
+    case "RESETEAR":
+      return initialState;
+    default:
+      return state;
+  }
+}
+
+const [formData, dispatch] = useReducer(reducer, initialState);
 export default function RegistrarInstrumento() {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    codigo_unico: "", nombre_tecnico: "", marca_modelo: "", numero_serie: "",
-    clasificacion_metrologica: "PN", laboratorio_responsable: "LPR",
-    peso_neto: "", peso_bruto: "", dimensiones: "",
-    fecha_adquisicion: "", costo_adquisicion: "", llamado_contrato: "", proveedor: "",
-    fuente_financiacion: "TESORO", fuente_otro: "", garantia_vigente: "NO", fecha_vencimiento_garantia: "",
-    fecha_calibracion_inicial: "", ultima_fecha_calibracion: "", calibrado_por: "",
-    numero_certificado_calibracion: "", patron_asociado: "", intervalo_calibracion: "",
-    intervalo_verificacion: "", parametro_verificado: "", tolerancia_permitida: "",
-    criterio_aceptacion: "", observaciones_verificacion: "",
-  });
+  
 
   const [archivos, setArchivos] = useState([]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  
+const handleChange = (e) => {
+  const { name, value, type, files } = e.target;
+  if (type === "file") {
+    dispatch({ type: "CAMBIAR_ARCHIVO", name, file: files[0] });
+  } else {
+    dispatch({ type: "CAMBIAR_CAMPO", name, value });
+  }
+}
+ = e.target;
     setFormData(prev => ({
        ...prev,
        [name]: value,
@@ -51,7 +96,7 @@ export default function RegistrarInstrumento() {
     archivos.forEach(file => data.append("archivo", file));
 
     try {
-      await axios.post("https://metrapp.onrender.com/api/instrumentos/", data, {
+      await axios.post("/api/instrumentos/", data, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });
