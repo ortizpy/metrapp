@@ -34,9 +34,12 @@ export default function RegistrarInstrumento() {
 
   const [archivos, setArchivos] = useState([]);
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData(prev => ({
+       ...prev,
+       [name]: value,
+      }));
   };
 
   const handleFileChange = e => setArchivos([...e.target.files]);
