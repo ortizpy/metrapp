@@ -4,7 +4,7 @@
 
 /* 🎨 Utilidades personalizadas */
 .input-field {
-  @apply w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-bandera-azul;
+  @apply w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-bandera-azul;
 }
 
 .btn-primary {
