@@ -7,6 +7,7 @@ import Reportes from './components/Reportes';
 import RegistrarInstrumento from "./components/RegistrarInstrumento";
 import VerInstrumentos from "./components/VerInstrumentos";
 import './styles/tailwind-utils.css';
+import FormularioSimple from "./components/FormularioSimple";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="reportes" element={<Reportes />} />
         <Route path="registrar-instrumento" element={<RegistrarInstrumento />} />
         <Route path="ver-instrumentos" element={<VerInstrumentos />} />
+        <Route path="form-test" element={<FormularioSimple />} />
       </Route>
     </Routes>
 </Router>
