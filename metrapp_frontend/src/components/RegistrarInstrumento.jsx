@@ -123,9 +123,147 @@ export default function RegistrarInstrumento() {
         </button>
       </div>
 
-      <form onSubmit={handleSubmit}>
-        {/* ... todas las secciones del formulario como ya tenías ... */}
+          <form onSubmit={handleSubmit} className="max-w-5xl mx-auto p-6 bg-white rounded-lg shadow">
+        <h2 className="text-2xl font-bold text-blue-900 mb-6">Registrar Instrumento</h2>
+
+        <Seccion titulo="1) Identificación del Equipo">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="codigo_unico" className="label">Código Único *</label>
+              <input
+                type="text"
+                id="codigo_unico"
+                name="codigo_unico"
+                value={formData.codigo_unico}
+                onChange={handleChange}
+                placeholder="Ej.: EQ-MAS-001"
+                required
+                className="input-field"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="nombre_tecnico" className="label">Nombre Técnico *</label>
+              <input
+                type="text"
+                id="nombre_tecnico"
+                name="nombre_tecnico"
+                value={formData.nombre_tecnico}
+                onChange={handleChange}
+                placeholder="Ej.: Comparador de masas"
+                required
+                className="input-field"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="marca_modelo" className="label">Marca / Modelo *</label>
+              <input
+                type="text"
+                id="marca_modelo"
+                name="marca_modelo"
+                value={formData.marca_modelo}
+                onChange={handleChange}
+                placeholder="Ej.: Mettler Toledo XP56"
+                required
+                className="input-field"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="numero_serie" className="label">Número de Serie *</label>
+              <input
+                type="text"
+                id="numero_serie"
+                name="numero_serie"
+                value={formData.numero_serie}
+                onChange={handleChange}
+                placeholder="Ej.: SN12345678"
+                required
+                className="input-field"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="clasificacion_metrologica" className="label">Clasificación Metrológica *</label>
+              <select
+                id="clasificacion_metrologica"
+                name="clasificacion_metrologica"
+                value={formData.clasificacion_metrologica}
+                onChange={handleChange}
+                required
+                className="input-field"
+              >
+                <option value="">Seleccione una opción</option>
+                <option value="Patrón Nacional">Patrón Nacional</option>
+                <option value="Patrón de Trabajo">Patrón de Trabajo</option>
+                <option value="Instrumento">Instrumento</option>
+              </select>
+            </div>
+
+            <div>
+              <label htmlFor="laboratorio_responsable" className="label">Laboratorio Responsable *</label>
+              <select
+                id="laboratorio_responsable"
+                name="laboratorio_responsable"
+                value={formData.laboratorio_responsable}
+                onChange={handleChange}
+                required
+                className="input-field"
+              >
+                <option value="">Seleccione una opción</option>
+                <option value="LPR">LPR</option>
+                <option value="LME">LME</option>
+                <option value="LFT">LFT</option>
+                <option value="LVN">LVN</option>
+              </select>
+            </div>
+
+            <div>
+              <label htmlFor="peso_neto" className="label">Peso Neto (kg)</label>
+              <input
+                type="number"
+                step="any"
+                id="peso_neto"
+                name="peso_neto"
+                value={formData.peso_neto}
+                onChange={handleChange}
+                placeholder="Ej.: 1.25"
+                className="input-field"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="peso_bruto" className="label">Peso Bruto (kg)</label>
+              <input
+                type="number"
+                step="any"
+                id="peso_bruto"
+                name="peso_bruto"
+                value={formData.peso_bruto}
+                onChange={handleChange}
+                placeholder="Ej.: 2.10"
+                className="input-field"
+              />
+            </div>
+
+            <div className="md:col-span-2">
+              <label htmlFor="dimensiones" className="label">Dimensiones (Largo × Ancho × Alto)</label>
+              <input
+                type="text"
+                id="dimensiones"
+                name="dimensiones"
+                value={formData.dimensiones}
+                onChange={handleChange}
+                placeholder="Ej.: 0.50 × 0.40 × 0.30"
+                className="input-field"
+              />
+            </div>
+          </div>
+        </Seccion>
       </form>
+
     </div>
   );
 }
+
