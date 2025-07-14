@@ -127,7 +127,6 @@ export default function RegistrarInstrumento() {
         <h2 className="text-2xl font-bold text-blue-900 mb-6">Registrar Instrumento</h2>
 
         <Seccion titulo="1) Identificación del Equipo">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label htmlFor="codigo_unico" className="label">Código Único *</label>
               <input
@@ -259,10 +258,9 @@ export default function RegistrarInstrumento() {
                 className="input-field"
               />
             </div>
-          </div>
-        </Seccion>
-      </form>
+          </Seccion>
 
+      </form>
     </div>
   );
 }
