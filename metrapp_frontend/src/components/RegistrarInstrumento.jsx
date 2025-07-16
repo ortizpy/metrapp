@@ -259,6 +259,93 @@ export default function RegistrarInstrumento() {
             />
           </div>
         </Seccion>
+
+        <Seccion titulo="2) Información de Adquisición">
+          <div>
+            <Label htmlFor="fecha_adquisicion" required>Fecha de Adquisición</Label>
+            <input
+              type="date"
+              id="fecha_adquisicion"
+              name="fecha_adquisicion"
+              value={formData.fecha_adquisicion}
+              onChange={handleChange}
+              required
+              className="input-field"
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="costo_adquisicion">Costo de Adquisición (USD)</Label>
+            <input
+              type="number"
+              step="any"
+              id="costo_adquisicion"
+              name="costo_adquisicion"
+              value={formData.costo_adquisicion}
+              onChange={handleChange}
+              placeholder="Ej.: 1500.00"
+              className="input-field"
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="llamado_contrato">Llamado o Contrato</Label>
+            <input
+              type="text"
+              id="llamado_contrato"
+              name="llamado_contrato"
+              value={formData.llamado_contrato}
+              onChange={handleChange}
+              placeholder="Ej.: ID 1234/2023"
+              className="input-field"
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="proveedor">Proveedor</Label>
+            <input
+              type="text"
+              id="proveedor"
+              name="proveedor"
+              value={formData.proveedor}
+              onChange={handleChange}
+              placeholder="Ej.: Instrumental S.A."
+              className="input-field"
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="fuente_financiacion">Fuente de Financiación</Label>
+            <select
+              id="fuente_financiacion"
+              name="fuente_financiacion"
+              value={formData.fuente_financiacion}
+              onChange={handleChange}
+              className="input-field"
+            >
+              <option value="">Seleccione una opción</option>
+              {FUENTES.map(fuente => (
+                <option key={fuente} value={fuente}>{fuente}</option>
+              ))}
+            </select>
+          </div>
+
+          {formData.fuente_financiacion === "OTRO" && (
+            <div>
+              <Label htmlFor="fuente_otro">Especifique otra fuente</Label>
+              <input
+                type="text"
+                id="fuente_otro"
+                name="fuente_otro"
+                value={formData.fuente_otro}
+                onChange={handleChange}
+                placeholder="Ej.: Donación de XYZ"
+                className="input-field"
+              />
+            </div>
+          )}
+        </Seccion>
+
       </form>
     </div>
   );
