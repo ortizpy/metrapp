@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from .models import Instrumento, ArchivoCertificado
 from .forms import InstrumentoForm
+from django.http import JsonResponse
 
 @login_required
 @role_required(['ADMIN', 'JEFE'])
@@ -48,3 +49,16 @@ class InstrumentoDeleteView(LoginRequiredMixin, DeleteView):
     model = Instrumento
     template_name = 'gestion_instrumentos/eliminar_instrumento.html'
     success_url = reverse_lazy('listar_instrumentos')
+
+def api_instrumentos(request):
+    if request.method == "GET":
+        instrumentos = Instrumento.objects.all().values(
+            "id",
+            "codigo_unico",
+            "nombre_tecnico",
+            "marca_modelo",
+            "numero_serie",
+            "fecha_adquisicion",
+            # podés incluir más campos si querés
+        )
+        return JsonResponse(list(instrumentos), safe=False)
