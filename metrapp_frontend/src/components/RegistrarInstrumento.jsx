@@ -508,6 +508,49 @@ export default function RegistrarInstrumento() {
           </div>
         </Seccion>
 
+        <Seccion titulo="5) Archivos Adjuntos">
+            <div>
+              <Label htmlFor="certificado_calibracion">Certificado de Calibración</Label>
+              <input
+                type="file"
+                id="certificado_calibracion"
+                name="certificado_calibracion"
+                accept=".pdf"
+                onChange={handleChange}
+                className="input-field"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="ficha_tecnica">Ficha Técnica</Label>
+              <input
+                type="file"
+                id="ficha_tecnica"
+                name="ficha_tecnica"
+                accept=".pdf"
+                onChange={handleChange}
+                className="input-field"
+              />
+            </div>
+
+            <div className="md:col-span-2">
+              <Label htmlFor="archivos">Archivos Adicionales (opcional)</Label>
+              <input
+                type="file"
+                id="archivos"
+                multiple
+                onChange={handleFileChange}
+                className="input-field"
+              />
+            </div>
+        </Seccion>
+
+        <div className="mt-6 text-right">
+          <button type="submit" className="btn-primary">
+            💾 Guardar Instrumento
+          </button>
+        </div>
+
       </form>
     </div>
   );
