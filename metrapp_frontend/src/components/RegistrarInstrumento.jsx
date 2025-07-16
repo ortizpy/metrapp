@@ -346,6 +346,101 @@ export default function RegistrarInstrumento() {
           )}
         </Seccion>
 
+        <Seccion titulo="3) Garantía y Calibración Inicial">
+          <div>
+            <Label htmlFor="garantia_vigente">¿Garantía vigente?</Label>
+            <select
+              id="garantia_vigente"
+              name="garantia_vigente"
+              value={formData.garantia_vigente}
+              onChange={handleChange}
+              className="input-field"
+            >
+              <option value="">Seleccione una opción</option>
+              {GARANTIA.map(opcion => (
+                <option key={opcion} value={opcion}>{opcion}</option>
+              ))}
+            </select>
+          </div>
+
+          {formData.garantia_vigente === "SI" && (
+            <div>
+              <Label htmlFor="fecha_vencimiento_garantia">Fecha de vencimiento de la garantía</Label>
+              <input
+                type="date"
+                id="fecha_vencimiento_garantia"
+                name="fecha_vencimiento_garantia"
+                value={formData.fecha_vencimiento_garantia}
+                onChange={handleChange}
+                className="input-field"
+              />
+            </div>
+          )}
+
+          <div>
+            <Label htmlFor="fecha_calibracion_inicial">Fecha de Calibración Inicial</Label>
+            <input
+              type="date"
+              id="fecha_calibracion_inicial"
+              name="fecha_calibracion_inicial"
+              value={formData.fecha_calibracion_inicial}
+              onChange={handleChange}
+              className="input-field"
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="ultima_fecha_calibracion">Última Fecha de Calibración</Label>
+            <input
+              type="date"
+              id="ultima_fecha_calibracion"
+              name="ultima_fecha_calibracion"
+              value={formData.ultima_fecha_calibracion}
+              onChange={handleChange}
+              className="input-field"
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="calibrado_por">Calibrado por</Label>
+            <input
+              type="text"
+              id="calibrado_por"
+              name="calibrado_por"
+              value={formData.calibrado_por}
+              onChange={handleChange}
+              placeholder="Ej.: INTN"
+              className="input-field"
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="numero_certificado_calibracion">N° de Certificado de Calibración</Label>
+            <input
+              type="text"
+              id="numero_certificado_calibracion"
+              name="numero_certificado_calibracion"
+              value={formData.numero_certificado_calibracion}
+              onChange={handleChange}
+              placeholder="Ej.: 00123/2024"
+              className="input-field"
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="patron_asociado">Patrón Asociado</Label>
+            <input
+              type="text"
+              id="patron_asociado"
+              name="patron_asociado"
+              value={formData.patron_asociado}
+              onChange={handleChange}
+              placeholder="Ej.: PN-MAS-001"
+              className="input-field"
+            />
+          </div>
+        </Seccion>
+
       </form>
     </div>
   );
