@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 
-// 🔻 Mover fuera del componente principal
 const Seccion = ({ titulo, children }) => (
   <fieldset className="border border-gray-300 rounded-lg p-4 bg-white shadow-sm mb-6">
     <legend className="text-lg font-semibold text-[#002776] px-2">{titulo}</legend>
@@ -17,7 +16,6 @@ const Label = ({ htmlFor, children, required }) => (
   </label>
 );
 
-// 🔻 Datos y estado inicial
 const CLASIFICACIONES = [
   { value: "PN", label: "Patrón Nacional" },
   { value: "PR", label: "Patrón de Referencia" },
@@ -30,7 +28,7 @@ const LABORATORIOS = [
   "LVD", "LTE", "LEL", "LTF", "LMQ"
 ];
 
-const FUENTES = ["TESORO", "PROYECTO", "COOPERACION", "OTRO"];
+const FUENTES = ["INSTITUCIONAL", "PROYECTO", "COOPERACION", "OTRO"];
 const GARANTIA = ["SI", "NO"];
 
 const initialState = {
@@ -83,6 +81,8 @@ export default function RegistrarInstrumento() {
   const navigate = useNavigate();
   const [formData, dispatch] = useReducer(reducer, initialState);
   const [archivos, setArchivos] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [errores, setErrores] = useState({});
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -97,6 +97,26 @@ export default function RegistrarInstrumento() {
 
   const handleSubmit = async e => {
     e.preventDefault();
+    
+    if (!window.confirm("¿Estás seguro de registrar este instrumento?")) return;
+
+    const nuevosErrores = {};
+    if (formData.garantia_vigente === "SI" && !formData.fecha_vencimiento_garantia) {
+      nuevosErrores.fecha_vencimiento_garantia = "Debes completar la fecha de vencimiento de la garantía si está vigente.";
+    }
+    if (formData.fuente_financiacion === "OTRO" && !formData.fuente_otro) {
+      nuevosErrores.fuente_otro = "Debes especificar otra fuente de financiación.";
+    }
+
+    if (Object.keys(nuevosErrores).length > 0) {
+      setErrores(nuevosErrores);
+      toast.error("⚠️ Por favor, corrige los errores antes de continuar.");
+      return;
+    }
+
+    setErrores({});
+    setLoading(true);
+
     const data = new FormData();
     Object.entries(formData).forEach(([key, value]) => data.append(key, value));
     archivos.forEach(file => data.append("archivo", file));
@@ -106,11 +126,17 @@ export default function RegistrarInstrumento() {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });
+
       toast.success("✅ Instrumento registrado correctamente");
+      dispatch({ type: "RESETEAR" });
+      setArchivos([]);
       setTimeout(() => navigate("/dashboard"), 2500);
+    
     } catch (error) {
       console.error(error);
       toast.error("❌ Error al registrar el instrumento");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -546,8 +572,8 @@ export default function RegistrarInstrumento() {
         </Seccion>
 
         <div className="mt-6 text-right">
-          <button type="submit" className="btn-primary">
-            💾 Guardar Instrumento
+          <button type="submit" className="btn-primary" disabled={loading}>
+            {loading ? "Guardando..." : "💾 Guardar Instrumento"}
           </button>
         </div>
 
