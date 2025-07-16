@@ -441,6 +441,73 @@ export default function RegistrarInstrumento() {
           </div>
         </Seccion>
 
+        <Seccion titulo="4) Verificación y Criterios de Aceptación">
+          <div>
+            <Label htmlFor="intervalo_verificacion">Intervalo de Verificación Intermedia (en meses)</Label>
+            <input
+              type="number"
+              id="intervalo_verificacion"
+              name="intervalo_verificacion"
+              value={formData.intervalo_verificacion}
+              onChange={handleChange}
+              placeholder="Ej.: 6"
+              className="input-field"
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="parametro_verificado">Parámetro Verificado</Label>
+            <input
+              type="text"
+              id="parametro_verificado"
+              name="parametro_verificado"
+              value={formData.parametro_verificado}
+              onChange={handleChange}
+              placeholder="Ej.: Masa, temperatura, presión..."
+              className="input-field"
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="tolerancia_permitida">Tolerancia Permitida</Label>
+            <input
+              type="text"
+              id="tolerancia_permitida"
+              name="tolerancia_permitida"
+              value={formData.tolerancia_permitida}
+              onChange={handleChange}
+              placeholder="Ej.: ± 0.1 g"
+              className="input-field"
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="criterio_aceptacion">Criterio de Aceptación</Label>
+            <input
+              type="text"
+              id="criterio_aceptacion"
+              name="criterio_aceptacion"
+              value={formData.criterio_aceptacion}
+              onChange={handleChange}
+              placeholder="Ej.: La desviación no debe superar el 5% del valor nominal"
+              className="input-field"
+            />
+          </div>
+
+          <div className="md:col-span-2">
+            <Label htmlFor="observaciones_verificacion">Observaciones</Label>
+            <textarea
+              id="observaciones_verificacion"
+              name="observaciones_verificacion"
+              value={formData.observaciones_verificacion}
+              onChange={handleChange}
+              rows={3}
+              placeholder="Escriba observaciones adicionales si las hubiera..."
+              className="input-field"
+            />
+          </div>
+        </Seccion>
+
       </form>
     </div>
   );
