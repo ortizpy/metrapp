@@ -77,6 +77,21 @@ function reducer(state, action) {
   }
 }
 
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== "") {
+    const cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.startsWith(name + "=")) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+
 export default function RegistrarInstrumento() {
   const navigate = useNavigate();
   const [formData, dispatch] = useReducer(reducer, initialState);
@@ -122,8 +137,11 @@ export default function RegistrarInstrumento() {
     archivos.forEach(file => data.append("archivo", file));
 
     try {
+      const csrfToken = getCookie("csrftoken");
       await axios.post("https://metrapp.onrender.com/api/instrumentos/", data, {
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: { "Content-Type": "multipart/form-data",
+        "X-CSRFToken": csrfToken,
+      },
         withCredentials: true,
       });
 
@@ -133,7 +151,7 @@ export default function RegistrarInstrumento() {
       setTimeout(() => navigate("/dashboard"), 2500);
     
     } catch (error) {
-      console.error("Detalles del error:", error.response?.data);
+      console.error("Detalles del error:", error.response?.data || error.message);
       toast.error("❌ Error al registrar el instrumento");
     } finally {
       setLoading(false);
