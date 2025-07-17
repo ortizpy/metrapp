@@ -5,7 +5,7 @@ export default function VerInstrumentos() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("https://metrapp.onrender.com/instrumentos/", {
+    fetch("https://metrapp.onrender.com/api/instrumentos/", {
       method: "GET",
       credentials: "include",
     })

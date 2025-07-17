@@ -23,9 +23,7 @@ urlpatterns = [
     path('', include('gestion_instrumentos.urls')),
     path('usuarios/', include('usuarios.urls')),
     path('api/', include('gestion_instrumentos.api_urls')),
-    path('accounts/login/', auth_views.LoginView.as_view(
-        authentication_form=EmailAuthenticationForm,
-        template_name='registration/login.html'), name='login'),
+    path('accounts/login/', auth_views.LoginView.as_view(authentication_form=EmailAuthenticationForm, template_name='registration/login.html'), name='login'),
     path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
