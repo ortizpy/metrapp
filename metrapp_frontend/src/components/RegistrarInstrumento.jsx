@@ -122,7 +122,7 @@ export default function RegistrarInstrumento() {
     archivos.forEach(file => data.append("archivo", file));
 
     try {
-      await axios.post("/api/instrumentos/", data, {
+      await axios.post("https://metrapp.onrender.com/api/instrumentos/", data, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });
@@ -133,7 +133,7 @@ export default function RegistrarInstrumento() {
       setTimeout(() => navigate("/dashboard"), 2500);
     
     } catch (error) {
-      console.error(error);
+      console.error("Detalles del error:", error.response?.data);
       toast.error("❌ Error al registrar el instrumento");
     } finally {
       setLoading(false);
