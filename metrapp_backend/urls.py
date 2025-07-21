@@ -6,6 +6,7 @@ from django.contrib.auth import views as auth_views
 from usuarios.forms import EmailAuthenticationForm
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
+from gestion_instrumentos.views import init_csrf
 from drf_yasg import openapi
 
 schema_view = get_schema_view(
@@ -20,6 +21,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("api/init-csrf/", init_csrf, name="init-csrf"),
     path('', include('gestion_instrumentos.urls')),
     path('usuarios/', include('usuarios.urls')),
     path('api/', include('gestion_instrumentos.api_urls')),

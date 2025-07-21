@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .decorators import role_required
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, ListView
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from .models import Instrumento, ArchivoCertificado
@@ -12,6 +13,10 @@ from django.http import JsonResponse
 @role_required(['ADMIN', 'JEFE'])
 def vista_dashboard(request):
     return render(request, 'gestion_instrumentos/dashboard.html')
+
+@ensure_csrf_cookie
+def init_csrf(request):
+    return JsonResponse({"ok": "CSRF cookie sent"})
 
 class InstrumentoCreateView(LoginRequiredMixin, CreateView):
     model = Instrumento
