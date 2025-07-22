@@ -15,6 +15,12 @@ export default function Layout() {
   };
 
   useEffect(() => {
+    // 1. Inicializar cookie CSRF
+    fetch('https://metrapp.onrender.com/api/init-csrf/', {
+    credentials: 'include',
+    });
+    
+    // 2. Obtener datos del usuarios autenticado
     fetch('https://metrapp.onrender.com/usuarios/dashboard/', {
       credentials: 'include'
     })
