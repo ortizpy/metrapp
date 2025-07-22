@@ -8,11 +8,11 @@
     <form method="post">
         {% csrf_token %}
         
-        <label for="id_email">Correo electrónico:</label>
-        {{ form.username }}
+        <label for="id_username">Correo electrónico:</label>
+        <input type="email" name="username" required>
 
         <label for="id_password">Contraseña:</label>
-        {{ form.password }}
+        <input type="password" name="password" required>
 
         <button type="submit">Entrar</button>
     </form>
