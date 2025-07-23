@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
@@ -7,21 +7,42 @@ export default function Login() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+  // Función auxiliar para obtener la cookie CSRF
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === name + '=') {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+
+  // Inicializar CSRF cookie al cargar el componente
+  useEffect(() => {
+    fetch('https://metrapp.onrender.com/api/init-csrf/', {
+      credentials: 'include'
+    });
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const body = JSON.stringify({
-      email,
-      password
-    });
+    const csrftoken = getCookie('csrftoken');
 
     const response = await fetch('https://metrapp.onrender.com/usuarios/login/', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrftoken
       },
-      body: body,
-      credentials: 'include'  // Para que Django cree cookie de sesión
+      credentials: 'include',
+      body: JSON.stringify({ email, password })
     });
 
     if (response.ok) {
