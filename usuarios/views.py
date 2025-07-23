@@ -11,6 +11,7 @@ from gestion_instrumentos.models import Instrumento, CertificadoCalibracion
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework.views import APIView
 from .serializers import UsuarioRegistroSerializer
 
 @csrf_exempt
@@ -25,6 +26,17 @@ def login_api(request):
         return JsonResponse({'message': 'Login correcto'}, status=200)
     else:
         return JsonResponse({'error': 'Credenciales inválidas'}, status=403)
+    
+
+class LoginAPIView(APIView):
+    def post(self, request):
+        email = request.data.get('email')
+        password = request.data.get('password')
+        user = authenticate(request, username=email, password=password)
+        if user is not None:
+            login(request, user)
+            return Response({'message': 'Inicio de sesión exitoso'}, status=status.HTTP_200_OK)
+        return Response({'error': 'Credenciales inválidas'}, status=status.HTTP_401_UNAUTHORIZED)
     
 @csrf_exempt
 @require_GET
