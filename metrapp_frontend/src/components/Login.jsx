@@ -42,7 +42,7 @@ export default function Login() {
         'X-CSRFToken': csrftoken
       },
       credentials: 'include',
-      body: JSON.stringify({ email, password })
+      body: JSON.stringify({ username, password })
     });
 
     if (response.ok) {
