@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const [email, setEmail] = useState('');
+  const [username, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -59,7 +59,7 @@ export default function Login() {
         <input
           type="email"
           placeholder="Correo electrónico"
-          value={email}
+          value={username}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
