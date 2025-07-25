@@ -9,6 +9,7 @@ from .views import (
     InstrumentoDetailView,
     InstrumentoUpdateView,
     InstrumentoDeleteView,
+    init_csrf
 )
 
 urlpatterns = [
@@ -19,5 +20,6 @@ urlpatterns = [
     path('instrumentos/<int:pk>/', InstrumentoDetailView.as_view(), name='detalle_instrumento'),
     path('instrumentos/<int:pk>/editar/', InstrumentoUpdateView.as_view(), name='editar_instrumento'),
     path('instrumentos/<int:pk>/eliminar/', InstrumentoDeleteView.as_view(), name='eliminar_instrumento'),
+    path('api/init_csrf/', init_csrf, name='init_csrf'),
     # path("api/instrumentos/", views.api_instrumentos, name="api_instrumentos"),
 ]
