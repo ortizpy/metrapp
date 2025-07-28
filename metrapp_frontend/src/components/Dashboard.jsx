@@ -2,26 +2,24 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import './Dashboard.css';
+import { authFetch } from '../utils/authFetch';
 
 export default function Dashboard() {
   const [data, setData] = useState(null);
   const navigate = useNavigate();
 
-  const handleLogout = async () => {
-    await fetch('https://metrapp.onrender.com/usuarios/logout/', {
-      method: 'GET',
-      credentials: 'include'
-    });
+  const handleLogout = () => {
+    // Limpiar tokens y redirigir
+    localStorage.removeItem('access');
+    localStorage.removeItem('refresh');
     navigate('/');
   };
 
   useEffect(() => {
-    fetch('https://metrapp.onrender.com/usuarios/dashboard/', {
-      credentials: 'include'
-    })
-      .then(res => res.ok ? res.json() : Promise.reject())
-      .then(setData)
-      .catch(() => navigate('/'));
+        authFetch('https://metrapp.onrender.com/usuarios/dashboard/')
+    .then(res => res.ok ? res.json() : Promise.reject())
+    .then(setData)
+    .catch(() => navigate('/'));
   }, [navigate]);
 
   if (!data) return <p>Cargando dashboard...</p>;

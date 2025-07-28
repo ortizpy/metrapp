@@ -1,51 +1,31 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const [username, setEmail] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  // Función auxiliar para obtener la cookie CSRF
-  function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-      const cookies = document.cookie.split(';');
-      for (let i = 0; i < cookies.length; i++) {
-        const cookie = cookies[i].trim();
-        if (cookie.substring(0, name.length + 1) === name + '=') {
-          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-          break;
-        }
-      }
-    }
-    return cookieValue;
-  }
-
-  // Inicializar CSRF cookie al cargar el componente
-  useEffect(() => {
-    fetch('https://metrapp.onrender.com/api/init-csrf/', {
-      credentials: 'include'
-    });
-  }, []);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const csrftoken = getCookie('csrftoken');
-
-    const response = await fetch('https://metrapp.onrender.com/usuarios/login/', {
+    const response = await fetch('https://metrapp.onrender.com/usuarios/token/', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': csrftoken
+        'Content-Type': 'application/json'
       },
-      credentials: 'include',
-      body: JSON.stringify({ username, password })
+      body: JSON.stringify({
+        username: email,
+        password: password
+      })
     });
 
+    const data = await response.json();
+
     if (response.ok) {
+      localStorage.setItem('access', data.access);
+      localStorage.setItem('refresh', data.refresh);
       navigate('/dashboard');
     } else {
       setError('Correo o contraseña inválidos');
@@ -59,7 +39,7 @@ export default function Login() {
         <input
           type="email"
           placeholder="Correo electrónico"
-          value={username}
+          value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
