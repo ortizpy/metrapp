@@ -13,3 +13,4 @@ whitenoise==6.9.0
 django-cors-headers==4.7.0
 drf-yasg==1.21.6
 setuptools
+djangorestframework-simplejwt
