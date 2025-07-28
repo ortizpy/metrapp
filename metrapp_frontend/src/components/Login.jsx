@@ -10,13 +10,13 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch('https://metrapp.onrender.com/usuarios/token/', {
+    const response = await fetch('https://metrapp.onrender.com/token/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        username: email,
+        email: email,
         password: password
       })
     });
