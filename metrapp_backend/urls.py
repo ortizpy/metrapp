@@ -31,6 +31,5 @@ urlpatterns = [
     path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path("token/", CustomTokenObtainPairView.as_view(), name="token_obtain_pair"),
 ]
