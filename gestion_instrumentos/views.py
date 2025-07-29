@@ -8,13 +8,12 @@ from django.urls import reverse_lazy
 from .models import Instrumento, ArchivoCertificado
 from .forms import InstrumentoForm
 from django.http import JsonResponse
-from rest_framework_simplejwt.views import TokenObtainPairView
+
 from rest_framework import serializers
 from django.contrib.auth import authenticate
-from .serializers import CustomTokenObtainPairSerializer
 
-class CustomTokenObtainPairView(TokenObtainPairView):
-    serializer_class = CustomTokenObtainPairSerializer
+
+
 
 @login_required
 @role_required(['ADMIN', 'JEFE'])

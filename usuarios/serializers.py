@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Usuario
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework.exceptions import AuthenticationFailed
 from django.contrib.auth import authenticate
 
 class UsuarioRegistroSerializer(serializers.ModelSerializer):
@@ -29,11 +30,13 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         email = attrs.get('email')
         password = attrs.get('password')
 
-        user = authenticate(email=email, password=password)
-        if user is None:
-            raise serializers.ValidationError("Credenciales inválidas o cuenta inactiva.")
-        if not user.is_active:
-            raise serializers.ValidationError("La cuenta está desactivada.")
+        user = authenticate(request=self.context.get("request"), email=email, password=password)
 
-        data = super().validate(attrs)
+        if not user or not user.is_active:
+            raise AuthenticationFailed("No active account found with the given credentials")
+
+        data = super().validate({
+            "username": email,
+            "password": password
+        })
         return data

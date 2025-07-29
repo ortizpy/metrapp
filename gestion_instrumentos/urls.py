@@ -1,7 +1,4 @@
-# gestion_instrumentos/urls.py
-
 from django.urls import path
-from .  import views
 from .views import (
     vista_dashboard,
     InstrumentoCreateView,
@@ -11,7 +8,6 @@ from .views import (
     InstrumentoDeleteView,
     init_csrf
 )
-from gestion_instrumentos.views import CustomTokenObtainPairView
 
 urlpatterns = [
     path('', vista_dashboard, name='home'),
@@ -22,6 +18,4 @@ urlpatterns = [
     path('instrumentos/<int:pk>/editar/', InstrumentoUpdateView.as_view(), name='editar_instrumento'),
     path('instrumentos/<int:pk>/eliminar/', InstrumentoDeleteView.as_view(), name='eliminar_instrumento'),
     path('api/init_csrf/', init_csrf, name='init_csrf'),
-    # path("api/instrumentos/", views.api_instrumentos, name="api_instrumentos"),
-    path('token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
 ]

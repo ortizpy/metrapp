@@ -15,6 +15,12 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from .serializers import UsuarioRegistroSerializer
 
+from rest_framework_simplejwt.views import TokenObtainPairView
+from .serializers import CustomTokenObtainPairSerializer
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
+
 @csrf_exempt
 @require_POST
 def login_api(request):
