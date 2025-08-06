@@ -10,15 +10,15 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/token/`, {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/usuarios/login/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        username: email,
-        password: password
-      })
+        email,
+        password
+      }),
     });
 
     const data = await response.json();
