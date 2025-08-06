@@ -138,7 +138,7 @@ export default function RegistrarInstrumento() {
 
     try {
       const csrfToken = getCookie("csrftoken");
-      await axios.post("https://metrapp.onrender.com/api/instrumentos/", data, {
+      await axios.post(`${process.env.REACT_APP_API_URL}/api/instrumentos/`, data, {
         headers: { "Content-Type": "multipart/form-data",
         "X-CSRFToken": csrfToken,
       },

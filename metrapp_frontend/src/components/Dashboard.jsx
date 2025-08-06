@@ -16,7 +16,7 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-        authFetch('https://metrapp.onrender.com/usuarios/dashboard/')
+        authFetch(`${process.env.REACT_APP_API_URL}/usuarios/dashboard/`)
     .then(res => res.ok ? res.json() : Promise.reject())
     .then(setData)
     .catch(() => navigate('/'));

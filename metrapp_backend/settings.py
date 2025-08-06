@@ -122,10 +122,10 @@ AUTHENTICATION_BACKENDS = [
 CORS_ALLOW_CREDENTIALS = True
 # Origen del frontend en desarrollo
 CORS_ALLOWED_ORIGINS = [
-    "https://metrapp-frontend.onrender.com",  # frontend Render
+    "http://localhost:3000",
 ]
 CSRF_TRUSTED_ORIGINS = [
-    "https://metrapp-frontend.onrender.com"
+    "http://localhost:3000",
 ]
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/

@@ -7,7 +7,7 @@ export default function Layout() {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    await fetch('https://metrapp.onrender.com/usuarios/logout/', {
+    await fetch(`${process.env.REACT_APP_API_URL}/usuarios/logout/`, {
       method: 'GET',
       credentials: 'include'
     });
@@ -16,12 +16,12 @@ export default function Layout() {
 
   useEffect(() => {
     // 1. Inicializar cookie CSRF
-    fetch('https://metrapp.onrender.com/api/init-csrf/', {
+    fetch(`${process.env.REACT_APP_API_URL}/api/init-csrf/`, {
     credentials: 'include',
     });
     
     // 2. Obtener datos del usuarios autenticado
-    fetch('https://metrapp.onrender.com/usuarios/dashboard/', {
+    fetch(`${process.env.REACT_APP_API_URL}/usuarios/dashboard/`, {
       credentials: 'include'
     })
       .then(res => res.ok ? res.json() : Promise.reject())
